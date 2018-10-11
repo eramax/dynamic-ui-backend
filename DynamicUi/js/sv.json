@@ -1,0 +1,86 @@
+[
+  {
+    "component": "div",
+    "fieldOptions": {
+      "class": "row mb-3"
+    },
+    "children": [
+      {
+        "component": "div",
+        "fieldOptions": {
+          "class": "col"
+        },
+        "children": [
+          {
+            "component": "input",
+            "model": "firstName",
+            "fieldOptions": {
+              "attrs": {
+                "placeholder": "Please enter your first name"
+              },
+              "class": [ "form-control" ],
+              "on": [ "input" ]
+            }
+          }
+        ]
+      },
+      {
+        "component": "div",
+        "fieldOptions": {
+          "class": "col"
+        },
+        "children": [
+          {
+            "component": "input",
+            "model": "lastName",
+            "fieldOptions": {
+              "attrs": {
+                "placeholder": "Please enter your last name"
+              },
+              "class": [ "form-control" ],
+              "on": [ "input" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "component": "div",
+    "fieldOptions": {
+      "class": "col"
+    },
+    "children": [
+      {
+        "component": "input",
+        "model": "lastName",
+        "fieldOptions": {
+          "attrs": {
+            "placeholder": "Please enter your last name"
+          },
+          "class": [ "form-control" ],
+          "on": [ "input" ]
+        }
+      }
+    ]
+  },
+  {
+    "component": "div",
+    "fieldOptions": {
+      "class": "col"
+    },
+    "children": [
+      {
+        "component": "input",
+        "model": "lastName",
+        "fieldOptions": {
+          "attrs": {
+            "placeholder": "Please enter your last name"
+          },
+          "class": [ "form-control" ],
+          "on": [ "input" ]
+        }
+      }
+    ]
+  }
+]
