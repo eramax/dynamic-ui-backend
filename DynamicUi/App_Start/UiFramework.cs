@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace DynamicUi
+namespace DynamicUi.Controllers
 {
     public class UiFramework
     {
@@ -55,7 +55,7 @@ namespace DynamicUi
     public class Tag
     {
         [JsonConverter(typeof(StringEnumConverter))]
-        public Tg TageType;
+        public Tg type;
         public string id;
         public string className;
         public string data;
@@ -158,6 +158,7 @@ namespace DynamicUi
             con += row2;
             return con;
         }
+
 
     }
 

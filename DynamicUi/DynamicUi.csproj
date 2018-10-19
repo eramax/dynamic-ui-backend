@@ -150,7 +150,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AppState.cs" />
+    <Compile Include="App_Start\BM.cs" />
     <Compile Include="App_Start\Bootstrap.cs" />
+    <Compile Include="App_Start\Ui.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

@@ -2,518 +2,315 @@
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Web;
 
-namespace DynamicUi
+namespace DynamicUi.dddd
 {
     public class Bootstrap
     {
-        public BC b1 { get; set; }
-        [JsonConverter(typeof(JsonPropertyAttribute))]
-        public BC b2 { get; set; }
-        public Bootstrap()
+        public Layout buildBS1()
         {
-            b1 = BC.table_bordered;
-            b2 = BC.alert;
+            Layout layout = new Layout("home-layout");
+            layout.Components.add(BB.ctg(BB.Tag.Row)
+                       .add(BB.ctg(BB.Tag.Col)
+                         .add(BB.ctg(BB.Tag.Alert, null, "This is a primary alert — check it out!", BB.S("color", BB.CR.danger))))
+                       .add(BB.ctg(BB.Tag.Col).add(BB.ctg(BB.Tag.Button,"bt", " click here " ,BB.S(BB.OP.Class,BB.CR.primary)))));
+                
+            return layout;
         }
-        
-    }
-    public class BSComponent {
-        public Bs ComponentType { get; set; }
-        public BSComOptions Options { get; set; }
-    }
-    public class BSComOptions
-    {
-        public List<BC> ComponentClasses { get; set; }
-        public string type { get; set; }
-        public string name { get; set; }
-        public string id { get; set; }
+        public Layout buildBS2()
+        {
+            Layout layout = new Layout("home-layout");
+            var r1 = BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "row grow w-100"));
+            var r2 = BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "row w-100"));
 
-        public string For { get; set; }
-        public string multiple { get; set; }
-        public string disabled { get; set; }
-        public string tabindex { get; set; }
-        public string role { get; set; }
-        public string data_dismiss { get; set; }
-        public string aria_label { get; set; }
-        public string aria_hidden { get; set; }
-        public string row { get; set; }
-        public string check { get; set; }
-        public string xs { get; set; }
-        public string sm { get; set; }
-        public string md { get; set; }
-        public string form { get; set; }
-        public string inline { get; set; }
-        public string valid { get; set; }
-        public string invalid { get; set; }
-        public string tooltip { get; set; }
-        public string plaintext { get; set; }
-        public string placeholder { get; set; }
-        public string color { get; set; }
-        public string bsSize { get; set; }
-        public string hidden { get; set; }
-        public string label { get; set; }
-    }
+            r1.add(BB.ctg(BB.Tag.div, null, "Header", BB.S(BB.OP.Class, "col-12 bg-primary py-3")));
+            r1.add(BB.ctg(BB.Tag.div, null, "Menu", BB.S(BB.OP.Class, "col-4 bg-info py-3")));
+            var dv1 = BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "main col-8 bg-warning h-100 py-3"));
+            dv1.add(BB.ctg(BB.Tag.h1, null, "Main"));
+            dv1.add(BB.ctg(BB.Tag.p, null, "adadasdadadadadadsf fdsfas sdfsd sf fasfsafsdafsa sfsafas fsadfasd fsadfas f ", BB.S(BB.OP.Class, "mb -5")));
+            dv1.add(BB.ctg(BB.Tag.button, null, "LoadModal", BB.S(BB.OP.Class, "btn btn-primary"), BB.S(BB.OP.OnClick, "alert")));
+            r1.add(dv1);
+            layout.Components.add(r1);
 
-    public enum Bs
-    {
-        Alert,
-        Badge,
-        Breadcrumb,
-        BreadcrumbItem,
-        Button,
-        ButtonDropdown,
-        ButtonGroup,
-        ButtonToolbar,
-        Card,
-        CardBody,
-        CardColumns,
-        CardDeck,
-        CardFooter,
-        CardGroup,
-        CardHeader,
-        CardImg,
-        CardImgOverlay,
-        CardLink,
-        CardSubtitle,
-        CardText,
-        CardTitle,
-        Carousel,
-        CarouselItem,
-        CarouselControl,
-        CarouselIndicators,
-        CarouselCaption,
-        Col,
-        Collapse,
-        Container,
-        CustomInput,
-        Dropdown,
-        DropdownItem,
-        DropdownMenu,
-        DropdownToggle,
-        Fade,
-        Form,
-        FormFeedback,
-        FormGroup,
-        FormText,
-        Input,
-        InputGroup,
-        InputGroupAddon,
-        InputGroupButtonDropdown,
-        InputGroupText,
-        Jumbotron,
-        Label,
-        ListGroup,
-        ListGroupItem,
-        ListGroupItemHeading,
-        ListGroupItemText,
-        Media,
-        Modal,
-        ModalBody,
-        ModalFooter,
-        ModalHeader,
-        Nav,
-        Navbar,
-        NavbarBrand,
-        NavbarToggler,
-        NavItem,
-        NavLink,
-        Pagination,
-        PaginationItem,
-        PaginationLink,
-        Popover,
-        PopoverBody,
-        PopoverHeader,
-        Progress,
-        Row,
-        TabContent,
-        Table,
-        TabPane,
-        Tag,
-        Tooltip,
+            r2.add(BB.ctg(BB.Tag.div, null, "Footer", BB.S(BB.OP.Class, "col-12 py-3 bg-danger")));
+            layout.Components.add(r2);
+            return layout;
+        }
+        public Layout buildBS3()
+        {
+            Layout layout = new Layout("home-layout");
+
+            var modal_body = BB.ctg(BB.Tag.h1, null, "MooooDaaaal");
+            var modal = BC.Model("exampleModal", "Welcome Modal", modal_body);
+            layout.Components.add(modal);
+
+            var r1 = BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "row grow w-100"));
+            var r2 = BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "row w-100"));
+
+            r1.add(BB.ctg(BB.Tag.div, null, "Header", BB.S(BB.OP.Class, "col-12 bg-primary py-3")));
+            r1.add(BB.ctg(BB.Tag.div, null, "Menu", BB.S(BB.OP.Class, "col-4 bg-info py-3")));
+            var dv1 = BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "main col-8 bg-warning h-100 py-3"));
+            dv1.add(BB.ctg(BB.Tag.h1, null, "Main"));
+            dv1.add(BB.ctg(BB.Tag.p, null, "adadasdadadadadadsf fdsfas sdfsd sf fasfsafsdafsa sfsafas fsadfasd fsadfas f ", BB.S(BB.OP.Class, "mb -5")));
+            dv1.add(BB.ctg(BB.Tag.button, null, "Alert", BB.S(BB.OP.Class, "btn btn-primary"), BB.S(BB.OP.OnClick, "alert")));
+            dv1.add(BB.ctg(BB.Tag.button, null, "Load Modal Now", BB.S(BB.OP.Class, "btn btn-primary"), BB.S(BB.OP.data_toggle, "modal"), BB.S(BB.OP.data_target, "#exampleModal")));
+            r1.add(dv1);
+            layout.Components.add(r1);
+
+            r2.add(BB.ctg(BB.Tag.div, null, "Footer", BB.S(BB.OP.Class, "col-12 py-3 bg-danger")));
+            layout.Components.add(r2);           
+            return layout;
+        }
     }
 
-    public enum BC
+    public class Layout
     {
-        active
-        , alert
-        , alert_danger
-        , alert_dark
-        , alert_dismissible
-        , alert_heading
-        , alert_info
-        , alert_light
-        , alert_link
-        , alert_primary
-        , alert_secondary
-        , alert_success
-        , alert_warning
-        , align_baseline
-        , align_bottom
-        , align_middle
-        , align_top
-        , align_text_top
-        , align_text_bottom
-        , align_content_around
-        , align_content____around
-        , align_content_center
-        , align_content____center
-        , align_content_end
-        , align_content____end
-        , align_content_start
-        , align_content____start
-        , align_content_stretch
-        , align_content____stretch
-        , align_items_start
-        , align_items____start
-        , align_items_end
-        , align_items____end
-        , align_items_center
-        , align_items____center
-        , align_items_baseline
-        , align_items____baseline
-        , align_items_stretch
-        , align_items____stretch
-        , align_self_start
-        , align_self____start
-        , align_self_end
-        , align_self____end
-        , align_self_center
-        , align_self____center
-        , align_self_baseline
-        , align_self_stretch
-        , align_self____stretch
-        , badge
-        , badge_danger
-        , badge_dark
-        , badge_info
-        , badge_light
-        , badge_pill
-        , badge_primary
-        , badge_secondary
-        , badge_success
-        , badge_warning
-        , bg_danger
-        , bg_dark
-        , bg_info
-        , bg_light
-        , bg_primary
-        , bg_secondary
-        , bg_success
-        , bg_warning
-        , blockquote
-        , blockquote_footer
-        , border
-        , border_bottom_0
-        , border_danger
-        , border_dark
-        , border_info
-        , border_left_0
-        , border_light
-        , border_primary
-        , border_right_0
-        , border_top_0
-        , border_secondary
-        , border_success
-        , border_warning
-        , border_white
-        , border_0
-        , breadcrumb
-        , breadcrumb_item
-        , btn
-        , btn_block
-        , btn_dark
-        , btn_danger
-        , btn_group
-        , btn_group_lg
-        , btn_group_sm
-        , btn_group_vertical
-        , btn_info
-        , btn_light
-        , btn_link
-        , btn_lg
-        , btn_outline_dark
-        , btn_outline_danger
-        , btn_outline_info
-        , btn_outline_light
-        , btn_outline_primary
-        , btn_outline_secondary
-        , btn_outline_success
-        , btn_outline_warning
-        , btn_primary
-        , btn_sm
-        , btn_secondary
-        , btn_success
-        , btn_toolbar
-        , btn_warning
-        , card
-        , card_body
-        , card_columns
-        , card_danger
-        , card_dark
-        , card_deck
-        , card_footer
-        , card_group
-        , card_header
-        , card_header_tabs
-        , card_header_pills
-        , card_img_bottom
-        , card_img_overlay
-        , card_img_top
-        , card_info
-        , card_light
-        , card_link
-        , card_primary
-        , card_secondary
-        , card_subtitle
-        , card_success
-        , card_text
-        , card_title
-        , card_warning
-        , carousel
-        , carousel_caption
-        , carousel_control_next
-        , carousel_control_next_icon
-        , carousel_control_prev
-        , carousel_control_prev_icon
-        , carousel_indicators
-        , carousel_inner
-        , carousel_item
-        , clearfix
-        , close
-        , col___
-        , col_sm___
-        , col_md___
-        , col_lg___
-        , col_xl___
-        , collapse
-        , show
-        , container
-        , container_fluid
-        , custom_checkbox
-        , custom_control
-        , custom_control_input
-        , custom_control_inline
-        , custom_control_label
-        , custom_file
-        , custom_radio
-        , custom_range
-        , custom_select
-        , custom_select_lg
-        , custom_select_sm
-        , disabled
-        , dropdown
-        , dropdown_divider
-        , dropdown_header
-        , dropdown_item
-        , dropdown_item_text
-        , dropdown_menu
-        , dropdown_menu_right
-        , dropdown_toggle
-        , dropleft
-        , dropright
-        , dropup
-        , d_block
-        , d____block
-        , d_flex
-        , d____flex
-        , d_inline_flex
-        , d____inline_flex
-        , embed_responsive
-        , embed_responsive_16by9
-        , embed_responsive_4by3
-        , embed_responsive_item
-        , fade
-        , fixed_bottom
-        , fixed_top
-        , flex_column
-        , flex____column
-        , flex_column_reverse
-        , flex____column_reverse
-        , flex_fill
-        , flex____fill
-        , flex_grow_0
-        , flex_nowrap
-        , flex____nowrap
-        , flex_shrink_0
-        , flex_row
-        , flex____row
-        , flex_row_reverse
-        , flex____row_reverse
-        , flex_wrap
-        , flex____wrap
-        , flex_wrap_reverse
-        , flex____wrap_reverse
-        , float_left
-        , float____left
-        , float_none
-        , float_right
-        , float____right
-        , font_weight_bold
-        , font_weight_italic
-        , font_weight_light
-        , font_weight_normal
-        , form_check
-        , form_check_inline
-        , form_check_input
-        , form_check_label
-        , form_control
-        , form_control_file
-        , form_control_lg
-        , form_control_plaintext
-        , form_control_range
-        , form_control_sm
-        , form_group
-        , form_inline
-        , h_25
-        , h_50
-        , h_75
-        , h_100
-        , img_fluid
-        , img_thumbnail
-        , initialism
-        , input_group
-        , input_group_append
-        , input_group_lg
-        , input_group_prepend
-        , input_group_sm
-        , input_group_text
-        , input_lg
-        , input_sm
-        , invisible
-        , jumbotron
-        , jumbotron_fluid
-        , justify_content___
-        , justify_content____around
-        , justify_content____between
-        , justify_content____center
-        , justify_content____end
-        , justify_content____start
-        , lead
-        , list_group
-        , list_group_flush
-        , list_group_item
-        , list_group_item_action
-        , list_group_item_danger
-        , list_group_item_dark
-        , list_group_item_info
-        , list_group_item_light
-        , list_group_item_primary
-        , list_group_item_success
-        , list_group_item_warning
-        , list_inline
-        , list_inline_item
-        , list_unstyled
-        , mark
-        , media
-        , media_body
-        , modal
-        , modal_body
-        , modal_content
-        , modal_dialog_centered
-        , modal_footer
-        , modal_header
-        , modal_lg
-        , modal_sm
-        , m___
-        , mt___
-        , mb___
-        , ml___
-        , mr___
-        , mx___
-        , my___
-        , mx_auto
-        , nav
-        , nav_tabs
-        , nav_pills
-        , nav_justified
-        , navbar
-        , navbar_nav
-        , navbar_brand
-        , navbar_collapse
-        , navbar_expand___
-        , navbar_dark
-        , navbar_light
-        , navbar_text
-        , navbar_toggler
-        , navlink
-        , nav_item
-        , no_gutters
-        , page_item
-        , page_link
-        , pagination
-        , pagination_lg
-        , pagination_sm
-        , pre_scrollable
-        , progress
-        , progress_bar
-        , progress_bar_animated
-        , progress_bar_striped
-        , p___
-        , pt___
-        , pb___
-        , pl___
-        , pr___
-        , py___
-        , px___
-        , rounded
-        , rounded_bottom
-        , rounded_circle
-        , rounded_left
-        , rounded_right
-        , rounded_top
-        , rounded_0
-        , row
-        , shadow
-        , shadow_lg
-        , shadow_md
-        , shadow_none
-        , shadow_sm
-        , small
-        , sr_only
-        , sr_only_focusable
-        , sticky_top
-        , tab_content
-        , tab_pane
-        , table
-        , table_active
-        , table_bordered
-        , table_borderless
-        , table_condensed
-        , table_dark
-        , table_hover
-        , table_responsive___
-        , table_striped
-        , text_capitalize
-        , text_center
-        , text____center
-        , text_danger
-        , text_dark
-        , text_hide
-        , text_info
-        , text_light
-        , text_justify
-        , text_left
-        , text____left
-        , text_lowercase
-        , text_muted
-        , text_nowrap
-        , text_primary
-        , text_secondary
-        , text_right
-        , text____right
-        , text_success
-        , text_uppercase
-        , text_warning
-        , text_white
-        , thead_dark
-        , thead_light
-        , visible
-        , w_25
-        , w_50
-        , w_75
-        , w_100
+        public string LayoutName;
+        public BSComponent Components = new BSComponent(BB.Tag.Container, "con");
+        public Layout(string name) { LayoutName = name; }
+    }
+    
+    public class BSComponent
+    {
+        public string Type;
+        public string id;
+        public string Content;
+        public Dictionary<string, string> Props = new Dictionary<string, string>();
+        public List<BSComponent> Childerns = new List<BSComponent>();
+        public BSComponent(string _type , string _id = null, string _content =null, params Dictionary<string,string>[] _props)
+        {
+            Type = _type;
+            id = _id;
+            Content = _content;
+            foreach (var list in _props)
+                foreach (var pr in list)
+                    Props.Add(pr.Key, pr.Value);
+        }
+        public static BSComponent operator +(BSComponent left, BSComponent right)
+        {
+            left.Childerns.Add(right);
+            return left;
+        }
+        public BSComponent add(params BSComponent[] t)
+        {
+            Childerns.AddRange(t);
+            return this;
+        }
+    }
+
+    public static class BC
+    {
+        public static BSComponent Model(string name,string title , BSComponent body)
+        {
+            var m1 = BB.ctg(BB.Tag.div, name, null, BB.S(BB.OP.tabindex, "-1"),
+                BB.S(BB.OP.role, "dialog"),
+                BB.S(BB.OP.aria_labelledby, name + "LB"),
+                BB.S(BB.OP.aria_label))
+                .add(BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "modal-dialog"), BB.S(BB.OP.role, "document")))
+                .add(BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "modal-content")));
+            var head = BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "modal-header"));
+            head.add(BB.ctg(BB.Tag.h5, name + "LB", title, BB.S(BB.OP.Class, "modal-title")));
+            head.add(BB.ctg(BB.Tag.button, null, null, BB.S(BB.OP.Class, "close"), BB.S(BB.OP.data_dismiss, "modal"), BB.S(BB.OP.aria_label, "Close")))
+                .add(BB.ctg(BB.Tag.span, null, "X", BB.S(BB.OP.aria_hidden)));
+            m1.add(head);
+            m1.add(body);
+            var foot = BB.ctg(BB.Tag.div, null, null, BB.S(BB.OP.Class, "modal-footer"));
+            foot += BB.ctg(BB.Tag.button, null, "Close", BB.S(BB.OP.Class, "btn btn-secondary"), BB.S(BB.OP.data_dismiss, "modal"));
+            foot += BB.ctg(BB.Tag.button, null, "Save changes", BB.S(BB.OP.Class, "btn btn-primary"));
+            m1.add(foot);
+            return m1;
+        }
+    }
+
+    public static class BB
+    {
+        public static BSComponent ctg(string _type, string _id = null,string content = null, params Dictionary<string, string>[] _props)
+        {
+            return new BSComponent(_type, _id, content, _props);
+        }
+        public class OP
+        {
+            public const string
+                Class = "className",
+                type = "type",
+                name = "name",
+                For = "for",
+                tabindex = "tabIndex",
+                role = "role",
+                check = "check",
+                xs = "xs",
+                sm = "sm",
+                md = "md",
+                placeholder = "placeholder",
+                bsSize = "bsSize",
+                label = "label",
+                href = "href",
+                color = "color",
+                data_toggle = "data-toggle",
+                data_target = "data-target",
+                aria_labelledby = "aria-labelledby",
+                aria_hidden="aria-hidden",
+                data_dismiss = "data-dismiss",
+                aria_label = "aria-label",
+
+                form = "form",
+                inline = "inline",
+                valid = "valid",
+                invalid = "invalid",
+                tooltip = "tooltip",
+                plaintext = "plaintext",
+                hidden = "hidden",
+                row = "row",
+                multiple = "multiple",
+                disabled = "disabled",
+
+                isOpen = "isOpen",
+                toggle = "toggle",
+                OnClick = "ClickAction",
+                OnChange = "ChangeAction";
+
+        }
+        public class CL
+        {
+            public const string
+                active = "active",
+                alert = "alert",
+                alert_link = "alert-link",
+                alert_heading = "alert-heading",
+                mb_0 = "mb-0";
+        }
+        public class Tag
+        {
+            public const string
+            Alert = "Alert",
+            Badge = "Badge",
+            Breadcrumb = "Breadcrumb",
+            BreadcrumbItem = "BreadcrumbItem",
+            Button = "Button",
+            ButtonDropdown = "ButtonDropdown",
+            ButtonGroup = "ButtonGroup",
+            ButtonToolbar = "ButtonToolbar",
+            Card = "Card",
+            CardBody = "CardBody",
+            CardColumns = "CardColumns",
+            CardDeck = "CardDeck",
+            CardFooter = "CardFooter",
+            CardGroup = "CardGroup",
+            CardHeader = "CardHeader",
+            CardImg = "CardImg",
+            CardImgOverlay = "CardImgOverlay",
+            CardLink = "CardLink",
+            CardSubtitle = "CardSubtitle",
+            CardText = "CardText",
+            CardTitle = "CardTitle",
+            Carousel = "Carousel",
+            CarouselItem = "CarouselItem",
+            CarouselControl = "CarouselControl",
+            CarouselIndicators = "CarouselIndicators",
+            CarouselCaption = "CarouselCaption",
+            Col = "Col",
+            Collapse = "Collapse",
+            Container = "Container",
+            CustomInput = "CustomInput",
+            Dropdown = "Dropdown",
+            DropdownItem = "DropdownItem",
+            DropdownMenu = "DropdownMenu",
+            DropdownToggle = "DropdownToggle",
+            Fade = "Fade",
+            Form = "Form",
+            FormFeedback = "FormFeedback",
+            FormGroup = "FormGroup",
+            FormText = "FormText",
+            Input = "Input",
+            InputGroup = "InputGroup",
+            InputGroupAddon = "InputGroupAddon",
+            InputGroupButtonDropdown = "InputGroupButtonDropdown",
+            InputGroupText = "InputGroupText",
+            Jumbotron = "Jumbotron",
+            Label = "Label",
+            ListGroup = "ListGroup",
+            ListGroupItem = "ListGroupItem",
+            ListGroupItemHeading = "ListGroupItemHeading",
+            ListGroupItemText = "ListGroupItemText",
+            Media = "Media",
+            Modal = "Modal",
+            ModalBody = "ModalBody",
+            ModalFooter = "ModalFooter",
+            ModalHeader = "ModalHeader",
+            Nav = "Nav",
+            Navbar = "Navbar",
+            NavbarBrand = "NavbarBrand",
+            NavbarToggler = "NavbarToggler",
+            NavItem = "NavbarToggler",
+            NavLink = "NavLink",
+            Pagination = "Pagination",
+            PaginationItem = "PaginationItem",
+            PaginationLink = "PaginationLink",
+            Popover = "Popover",
+            PopoverBody = "PopoverBody",
+            PopoverHeader = "PopoverHeader",
+            Progress = "Progress",
+            Row = "Row",
+            TabContent = "TabContent",
+            Table = "Table",
+            TabPane = "TabPane",
+            tag = "Tag",
+            Tooltip = "Tooltip",
+            ul = "ul",
+            li = "li",
+            ol = "ol",
+            a = "a",
+            button = "button",
+            br = "br",
+            code = "code",
+            div = "div",
+            form = "form",
+            header = "header",
+            option = "option",
+            select = "select",
+            textarea = "textarea",
+            table = "table",
+            tbody = "tbody",
+            td = "td",
+            tfoot = "tfoot",
+            th = "th",
+            thead = "thead",
+            span = "span",
+            section = "section",
+            script = "script",
+            img = "img",
+            input = "input",
+            nav = "nav",
+            p = "p",
+            h1 = "h1",
+            h2 = "h2",
+            h3 = "h3",
+            h4 = "h4",
+            h5 = "h5";
+        }
+        public class CR
+        {
+            public const string
+            primary = "primary",
+            secondary = "secondary",
+            success = "success",
+            danger = "danger",
+            warning = "warning",
+            info = "info",
+            light = "light",
+            dark = "dark";
+        }
+        public static Dictionary<string, string> S(string type, params string[] arr)
+        {
+            Dictionary<string, string> list = new Dictionary<string, string>();
+            string tmp = "";
+            if (arr == null || arr.Length == 0) tmp = "true";
+            else 
+            {
+                tmp = String.Join(" ", arr);
+            }
+            list.Add(type, tmp);
+            return list;
+        }
     }
 }
