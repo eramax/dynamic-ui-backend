@@ -71,10 +71,20 @@ namespace DynamicUi.App_Start
         public BM IsActive() { Props["className"] += " is-active"; return this; }
         public BM IsLoading() { Props["className"] += " is-loading"; return this; }
 
+        public BM IsSidebarMenu() { Props["className"] += " is-sidebar-menu"; return this; }
+        public BM IsHiddenMobile() { Props["className"] += " is-hidden-mobile"; return this; }
+        public BM IsMainContent() { Props["className"] += " is-main-content"; return this; }
+
         public BM IsNavItem() { Props["className"] += " nav-item"; return this; }
         public BM IsNavMenu() { Props["className"] += " nav-menu"; return this; }
 
         public BM IsMenuList() { Props["className"] += " menu-list"; return this; }
+
+        public BM isActiveF(string functionName, params string[] vars)
+        {
+            var dir = new Dictionary<string, object>(); dir.Add("function", functionName);
+            dir.Add("vars", vars); Props.Add("is-active", dir); return this;
+        }
 
         public static BM Div(string classes = null, string content = null) { return new BM(Tag.div,  classes, null, content); }
         public static BM Conainer(string classes = null) { return new BM(Tag.div, "container" + classes); }
@@ -91,24 +101,34 @@ namespace DynamicUi.App_Start
         public static BM Article(string title, string content)
         { return new BM(Tag.Article, "message").add(Div("message-header", title), Div("message-body", content)); }
 
-        public static BM Nav(string brandImage, string brandLink , BM left, BM right)
+        public static BM Nav(string brandImage, string brandLink, BM left, BM right, string navid)
         {
-            var ar = new BM(Tag.nav, "navbar").role("navigation").aria_label("main navigation") as BM;
+            var ar = new BM(Tag.nav, "navbar") as BM;
             var d1 = Div("navbar-brand");
-            d1 += A(brandLink).Class("navbar-item").add(Img(brandImage, 0, 0)) as BM;
-            d1 += new BM(Tag.a, "navbar-burger burger").aria_label("menu").role("button").aria_expanded("false").data_target("navbarBasicExample").add(
-                Span().aria_hidden("true"), Span().aria_hidden("true"), Span().aria_hidden("true") ) as BM;
-            var d2 = new BM(Tag.div, "navbar-menu", "navbarBasicExample").add(left, right);
+            d1 += NavLink(brandLink).Class("navbar-item").add(Img(brandImage, 112, 28)) as BM;
+
+            d1 += new BM(Tag.a, "navbar-burger burger").isActiveF("isActive", navid).OnClick("isActiveToggle", navid).aria_label("menu").role("button").aria_expanded("false").data_target(navid).AddVar(navid)
+                .add( Span().aria_hidden("true"), Span().aria_hidden("true"), Span().aria_hidden("true")) as BM;
+
+            var d2 = new BM(Tag.div, "navbar-menu", navid).isActiveF("isActive", navid).add(Conainer().add(Row().add(Col(5, 12).add(left), Col(5, 12).add(right))));
             ar += d1;
             ar += d2;
             return ar;
         }
+
+        public static BM Menu() { return new BM(Tag.Aside, "menu");  }
+
         public static BM MenuGroup(string label, BM ul)
         { return Div().add(new BM(Tag.p, "menu-label", null, label), ul.IsMenuList()); }
 
-        public static BM Menu() { return new BM(Tag.Aside, "menu");  }
-        public static BM A(string link, string content=null, string classes = null) { return new BM(Tag.a, classes, null, content).href(link) as BM; }
+        public static BM NavLink(string link, string content = null, string classes=null) { return new BM(Tag.NavLink,classes,null,content).to(link).activeClassName("is-active").exact() as BM; }
 
+        public static BM A(string link, string content=null, string classes = null) { return new BM(Tag.a, classes, null, content).href(link) as BM; }
+        public static BM Ul(string classes = null) { return new BM(Tag.ul, classes); }
+        public static BM Li(string classes = null) { return new BM(Tag.li, classes); }
+        public new static BM H1(string content) { return new BM(Tag.h1, "title", null, content).Is(1); }
+        public new static BM H2(string content) { return new BM(Tag.h1, "title", null, content).Is(2); }
+        public new static BM H3(string content) { return new BM(Tag.h1, "title", null, content).Is(3); }
     }
     public class BmBuilder
     {
@@ -140,20 +160,91 @@ namespace DynamicUi.App_Start
             layout.Components = warpper;
             var con = BM.Conainer().IsFluid().addTo(ref warpper);
             var navStart = BM.Div("navbar-start").add(
-                BM.A("/","Home", "navbar-item"),
+                BM.A("/", "Home", "navbar-item"),
                 BM.A("/about", "About", "navbar-item"),
                 BM.A("/users", "Users", "navbar-item"),
-                BM.A("/reports", "Reports", "navbar-item")
-                );
-
+                BM.A("/reports", "Reports", "navbar-item"),
+                BM.Div("navbar-item has-dropdown is-hoverable").add(BM.A("/more", "More", "navbar-link")).add(BM.Div("navbar-dropdown")
+                .add(BM.A("/messages", "Messages", "navbar-item"), BM.A("/settings", "Settings", "navbar-item"), BM.A("/ads", "Ads", "navbar-item"))));
+            
             var navEnd = BM.Div("navbar-end").add(
                 BM.A("/notify", "Notifications", "navbar-item"),
                 BM.A("/logout", "Logout", "navbar-item")
                 );
 
-            var nav = BM.Nav("https://bulma.io/images/bulma-logo.png", "/", navStart, navEnd);
+            var nav = BM.Nav("https://bulma.io/images/bulma-logo.png", "/", navStart, navEnd, "navMenubd-example");
             con += nav;
             return layout;
+        }
+        public Layout build3()
+        {
+            Layout layout = new Layout("bm1");
+            BM warpper = BM.Div("wpp22");
+            layout.Components = warpper;
+            var con = BM.Conainer().IsFluid().addTo(ref warpper);
+            var navStart = BM.Div("navbar-start").add(
+                BM.NavLink("/", "Home", "navbar-item"),
+                BM.NavLink("/about", "About", "navbar-item"),
+                BM.NavLink("/users", "Users", "navbar-item"),
+                BM.NavLink("/reports", "Reports", "navbar-item"),
+                BM.Div("navbar-item has-dropdown is-hoverable").add(BM.NavLink("/more", "More", "navbar-link")).add(BM.Div("navbar-dropdown")
+                .add(BM.NavLink("/messages", "Messages", "navbar-item"), BM.NavLink("/settings", "Settings", "navbar-item"), BM.NavLink("/ads", "Ads", "navbar-item"))));
+
+            var navEnd = BM.Div("navbar-end").add(
+                BM.Div("navbar-item").add(BM.Div("buttons").add(
+                    BM.NavLink("/notify", "Notifications").IsButton().IsPrimary(),
+                    BM.NavLink("/logout", "Logout").IsButton().IsDanger()
+                )));
+
+            var nav = BM.Nav("logo.gif", "/", navStart, navEnd, "navMenubd-example");
+            con += nav;
+
+            var con2 = BM.Conainer().addTo(ref warpper);
+            BM aside = BM.Menu();
+            var ul1 = BM.Ul("menu-list").add(
+                BM.Li().add(BM.NavLink( "/", "Dashboard")),
+                BM.Li().add(BM.NavLink( "/About", "About")),
+                BM.Li().add(BM.NavLink("/today","Today"))
+                );
+            var ul2 = BM.Ul("menu-list").add(
+                BM.Li().add(BM.NavLink("/teamettings", "Team Settings")),
+                BM.Li().add(BM.NavLink("/invitations","Invitations")),
+                BM.Li().add(BM.NavLink("/authentication","Authentication"))
+                );
+            var ul3 = BM.Ul("menu-list").add(
+                BM.Li().add(BM.NavLink("/payments","Payments")),
+                BM.Li().add(BM.NavLink("/transfers","Transfers")),
+                BM.Li().add(BM.NavLink("/balance","Balance"))
+                );
+
+            aside.add(BM.MenuGroup("GENERAL", ul1));
+            aside.add(BM.MenuGroup("ADMINISTRATION", ul2));
+            aside.add(BM.MenuGroup("TRANSACTIONS", ul3));
+
+            var root = "http://localhost:52752/api/ui/";
+
+            BM routes = new BM(Tag.ERoutes);
+            routes.AddRoute(root + "GetDashboard", "/");
+            routes.AddRoute(root + "GetAbout","/about");
+            routes.AddRoute(root + "GetToday","/today");
+            con2.add(BM.Row().add(BM.Col(2, 0).IsHiddenMobile().IsSidebarMenu().add(aside), BM.Col(10, 12).IsMainContent().add(routes)));
+
+            return layout;
+        }
+        public BM GetDashboard()
+        {
+            BM dash = BM.H1("Welocme Dashboard")  ;
+            return dash;
+        }
+        public BM GetAbout()
+        {
+            BM dash = BM.H1("Welocme About");
+            return dash;
+        }
+        public BM GetToday()
+        {
+            BM dash = BM.H1("Today is " + DateTime.Now.ToString()) ;
+            return dash;
         }
     }
     public class Layout
@@ -162,4 +253,5 @@ namespace DynamicUi.App_Start
         public BM Components;
         public Layout(string name) { LayoutName = name; }
     }
+
 }

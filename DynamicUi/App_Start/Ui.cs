@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DynamicUi.App_Start;
+using System.Collections.Generic;
 
 namespace DynamicUi
 {
@@ -6,7 +7,6 @@ namespace DynamicUi
     {
         public string Type;
         public string Key;
-        public string id;
         public string Content;
         public List<string> Vars = new List<string>();
         public Dictionary<string, object> Props = new Dictionary<string, object>();
@@ -16,7 +16,7 @@ namespace DynamicUi
         {
             Type = tag;
             Key = System.Guid.NewGuid().ToString("N").Substring(0, 10);
-            id = _id;
+            Props.Add("id", _id);
             Content = content;
             Props.Add("className", classes);
         }
@@ -37,15 +37,16 @@ namespace DynamicUi
         }
 
         public Ui AddVar(string x) { Vars.Add(x); return this; }
-
+        public Ui Id(string x) { Props["id"] = x; return this; }
         public Ui Class(string x) { Props["className"] += x; return this; }
         public Ui type(string x) { Props.Add("type", x); return this; }
         public Ui href(string x) { Props.Add("href", x); return this; }
-
+        public Ui to(string x) { Props.Add("to", x); return this; }
+        public Ui width(int x) { Props.Add("width", x); return this; }
+        public Ui height(int x) { Props.Add("height", x); return this; }
+        public Ui activeClassName(string x) { Props.Add("activeClassName", x); return this; }
         public Ui src(string x) { Props.Add("src", x); return this; }
-
         public Ui For(string x) { Props.Add("for", x); return this; }
-
         public Ui OnClick(string functionName, params string[] vars)
         {
             var dir = new Dictionary<string, object>(); dir.Add("function", functionName);
@@ -58,22 +59,39 @@ namespace DynamicUi
         }
         public Ui hidden() { Props.Add("hidden", true); return this; }
         public Ui disabled() { Props.Add("disabled", true); return this; }
-
         public Ui role(string x) { Props.Add("role", x); return this; }
         public Ui aria_label(string x) { Props.Add("aria-label", x); return this; }
         public Ui aria_expanded(string x) { Props.Add("aria-expanded", x); return this; }
         public Ui data_target(string x) { Props.Add("data-target", x); return this; }
         public Ui aria_hidden(string x) { Props.Add("aria-hidden", x); return this; }
+        public Ui exact() { Props.Add("exact", true); return this; }
 
+        public static Ui Icon(string classes, string content = null) { return Span("icon").add(new Ui(Tag.i, classes, null, content)); }
 
-        public static B4 Div(string classes = null) { return new B4(Tag.div, classes); }
+        public static Ui Div(string classes = null) { return new Ui(Tag.div, classes); }
         public static Ui H1(string content) { return new Ui(Tag.h1, null, null, content); }
         public static Ui H2(string content) { return new Ui(Tag.h2, null, null, content); }
         public static Ui H3(string content) { return new Ui(Tag.h3, null, null, content); }
         public static Ui H4(string content) { return new Ui(Tag.h4, null, null, content); }
         public static Ui P(string content) { return new Ui(Tag.p, null, null, content); }
-        public static Ui Span() { return new Ui(Tag.span); }
-        public static Ui Img(string link, int width, int height) { return new Ui("Img").src(link); }
+        public static Ui Span(string classes = null) { return new Ui(Tag.span, classes); }
+        public static Ui Img(string link, int width, int height) { return new Ui("Img").src(link).width(width).height(height); }
+
+        public Ui toggle(string functionName, params string[] vars)
+        {
+            var dir = new Dictionary<string, object>(); dir.Add("function", functionName);
+            dir.Add("vars", vars); Props.Add("toggle", dir); return this;
+        }
+        public Ui AddRoute(string action, string link , params string[] vars)
+        {
+            if(!Props.ContainsKey("Routes"))
+            {
+                var dir = new List<XRoute>();
+                Props.Add("Routes", dir);
+            }
+            (Props["Routes"] as List<XRoute>).Add(new XRoute(action,link, vars));
+            return this;
+        }
     }
     public class B4 : Ui
     {
@@ -115,6 +133,8 @@ namespace DynamicUi
         public B4 fluid() { Props.Add("fluid", true); return this; }
         public B4 active() { Props.Add("active", true); return this; }
 
+
+
         public static B4 Conainer(string classes = null) { return new B4(Tag.Container); }
         public static B4 Row(string classes = null) { return new B4(Tag.Row, classes); }
         public static B4 Col(int? x = null, string classes = null) { return new B4(Tag.Col, classes, null, null).xs(x).sm(x); }
@@ -125,11 +145,7 @@ namespace DynamicUi
             var dir = new Dictionary<string, object>(); dir.Add("function", functionName);
             dir.Add("vars", vars); Props.Add("isOpen", dir); return this;
         }
-        public B4 toggle(string functionName, params string[] vars)
-        {
-            var dir = new Dictionary<string, object>(); dir.Add("function", functionName);
-            dir.Add("vars", vars); Props.Add("toggle", dir); return this;
-        }
+
 
         public static B4 Button(string content, string color = null, string action = null, params string[] vars)
         { return new B4(Tag.Button, null, null, content).color(color).OnClick(action, vars) as B4; }
@@ -225,6 +241,7 @@ namespace DynamicUi
         li = "li",
         ol = "ol",
         a = "a",
+        i = "i",
         button = "button",
         br = "br",
         code = "code",
@@ -253,9 +270,22 @@ namespace DynamicUi
         h4 = "h4",
         h5 = "h5",
         Article = "article",
-        Aside = "aside";
+        Aside = "aside",
+        ERoutes = "ERoutes";
     }
 
+    public class XRoute
+    {
+        public string action { get; set; }
+        public string link { get; set; }
+        public List<string> vars = new List<string>();
+        public XRoute(string _action, string _link, params string[] _vars)
+        {
+            action = _action;
+            link = _link;
+            vars.AddRange(_vars);
+        }
+    }
     public class B4Layout
     {
         public string LayoutName;
