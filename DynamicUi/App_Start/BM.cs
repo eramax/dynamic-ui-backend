@@ -86,6 +86,12 @@ namespace DynamicUi.App_Start
             dir.Add("vars", vars); Props.Add("is-active", dir); return this;
         }
 
+        public BM ContentF(params string[] vars)
+        {
+            var dir = new Dictionary<string, object>(); dir.Add("function", "StringBuilder");
+            dir.Add("vars", vars); Props2.Add("ContentF", dir);  return this;
+        }
+
         public static BM Div(string classes = null, string content = null) { return new BM(Tag.div,  classes, null, content); }
         public static BM Conainer(string classes = null) { return new BM(Tag.div, "container" + classes); }
         public static BM Row(string classes = null) { return new BM(Tag.div, "columns" + classes); }
@@ -107,7 +113,7 @@ namespace DynamicUi.App_Start
             var d1 = Div("navbar-brand");
             d1 += NavLink(brandLink).Class("navbar-item").add(Img(brandImage, 112, 28)) as BM;
 
-            d1 += new BM(Tag.a, "navbar-burger burger").isActiveF("isActive", navid).OnClick("isActiveToggle", navid).aria_label("menu").role("button").aria_expanded("false").data_target(navid).AddVar(navid)
+            d1 += new BM(Tag.a, "navbar-burger burger").isActiveF("isActive", navid).OnClick("toggle", navid).aria_label("menu").role("button").aria_expanded("false").data_target(navid).AddVar(navid)
                 .add( Span().aria_hidden("true"), Span().aria_hidden("true"), Span().aria_hidden("true")) as BM;
 
             var d2 = new BM(Tag.div, "navbar-menu", navid).isActiveF("isActive", navid).add(Conainer().add(Row().add(Col(5, 12).add(left), Col(5, 12).add(right))));
@@ -126,9 +132,12 @@ namespace DynamicUi.App_Start
         public static BM A(string link, string content=null, string classes = null) { return new BM(Tag.a, classes, null, content).href(link) as BM; }
         public static BM Ul(string classes = null) { return new BM(Tag.ul, classes); }
         public static BM Li(string classes = null) { return new BM(Tag.li, classes); }
-        public new static BM H1(string content) { return new BM(Tag.h1, "title", null, content).Is(1); }
-        public new static BM H2(string content) { return new BM(Tag.h1, "title", null, content).Is(2); }
-        public new static BM H3(string content) { return new BM(Tag.h1, "title", null, content).Is(3); }
+        public new static BM H1(string content = null) { return new BM(Tag.h1, "title", null, content).Is(1); }
+        public new static BM H2(string content = null) { return new BM(Tag.h1, "title", null, content).Is(2); }
+        public new static BM H3(string content = null) { return new BM(Tag.h1, "title", null, content).Is(3); }
+        public static BM Box() { return new BM(Tag.div, "box"); }
+        public static BM Section() { return new BM(Tag.section, "section"); }
+        public static BM Block() { return new BM(Tag.div, "block"); }
     }
     public class BmBuilder
     {
@@ -204,7 +213,8 @@ namespace DynamicUi.App_Start
             var ul1 = BM.Ul("menu-list").add(
                 BM.Li().add(BM.NavLink( "/", "Dashboard")),
                 BM.Li().add(BM.NavLink( "/About", "About")),
-                BM.Li().add(BM.NavLink("/today","Today"))
+                BM.Li().add(BM.NavLink("/today","Today")),
+                BM.Li().add(BM.NavLink("/dynamic", "Dynamic Content"))
                 );
             var ul2 = BM.Ul("menu-list").add(
                 BM.Li().add(BM.NavLink("/teamettings", "Team Settings")),
@@ -224,27 +234,38 @@ namespace DynamicUi.App_Start
             var root = "http://localhost:52752/api/ui/";
 
             BM routes = new BM(Tag.ERoutes);
-            routes.AddRoute(root + "GetDashboard", "/");
-            routes.AddRoute(root + "GetAbout","/about");
-            routes.AddRoute(root + "GetToday","/today");
+            routes.AddRoute("https://api.myjson.com/bins/1ao6tw"/*root + "GetDashboard"*/, "/");
+            routes.AddRoute("https://api.myjson.com/bins/1bx778" /*root + "GetAbout"*/,"/about");
+            routes.AddRoute("https://api.myjson.com/bins/jce5w" /*root + "GetToday"*/,"/today");
+            routes.AddRoute("https://api.myjson.com/bins/1e6nas" /*root + "GetDynamicContent"*/, "/dynamic");
             con2.add(BM.Row().add(BM.Col(2, 0).IsHiddenMobile().IsSidebarMenu().add(aside), BM.Col(10, 12).IsMainContent().add(routes)));
 
             return layout;
         }
         public BM GetDashboard()
         {
-            BM dash = BM.H1("Welocme Dashboard")  ;
+            BM dash = BM.H1("Welcome Dashboard")  ;
             return dash;
         }
         public BM GetAbout()
         {
-            BM dash = BM.H1("Welocme About");
+            BM dash = BM.H1("Welcome About");
             return dash;
         }
         public BM GetToday()
         {
             BM dash = BM.H1("Today is " + DateTime.Now.ToString()) ;
             return dash;
+        }
+        public BM GetDynamicContent()
+        {
+            var box = BM.Box().add(
+                BM.H3().ContentF("Number of green button clicks is {0} and number of red clicks is {1}", "v1", "v2")
+                .AddVar("v1").AddVar("v2"),
+                BM.Section().add(BM.Buttun(null, "Add..").IsPrimary().OnClick("IncrementF", "v1"),
+                BM.Buttun(null, "Add..").IsDanger().OnClick("IncrementF", "v2"))
+                ) as BM;
+            return box;
         }
     }
     public class Layout

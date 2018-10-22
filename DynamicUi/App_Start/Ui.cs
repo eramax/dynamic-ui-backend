@@ -10,6 +10,7 @@ namespace DynamicUi
         public string Content;
         public List<string> Vars = new List<string>();
         public Dictionary<string, object> Props = new Dictionary<string, object>();
+        public Dictionary<string, object> Props2 = new Dictionary<string, object>();
         public List<Ui> Childerns = new List<Ui>();
 
         public Ui(string tag, string classes = null, string _id = null, string content = null)
@@ -269,6 +270,7 @@ namespace DynamicUi
         h3 = "h3",
         h4 = "h4",
         h5 = "h5",
+        hr = "hr",
         Article = "article",
         Aside = "aside",
         ERoutes = "ERoutes";

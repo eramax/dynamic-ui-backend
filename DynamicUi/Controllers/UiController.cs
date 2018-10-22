@@ -86,5 +86,10 @@ namespace DynamicUi.Controllers
             BmBuilder bm = new BmBuilder();
             return Ok(bm.GetToday());
         }
+        public IHttpActionResult GetDynamicContent()
+        {
+            BmBuilder bm = new BmBuilder();
+            return Ok(bm.GetDynamicContent());
+        }
     }
 }
